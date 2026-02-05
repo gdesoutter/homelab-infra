@@ -1,5 +1,5 @@
 resource "hyperv_vhd" "vhd_noob" {
-  path   = "C:\\Hyper-V\\Virtual Hard Disks\\MA-PREMIERE-VM.vhdx"
+  path   = "C:\\ProgramData\\Microsoft\\Windows\\Virtual Hard Disks\\TEST-VM.vhdx"
   source = "C:\\ProgramData\\Microsoft\\Windows\\Virtual Hard Disks\\WS2025_Golden.vhdx"
 }
 
