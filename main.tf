@@ -1,18 +1,18 @@
 resource "hyperv_vhd" "vhd_noob" {
-  path            = "C:/Hyper-V/Virtual Hard Disks/Test-VM.vhdx"
-  parent_path = "C:/Hyper-V/Templates/WS2025_Golden.vhdx"
-  size        = 64424509440
+  path   = "C:/Hyper-V/Virtual Hard Disks/MA-PREMIERE-VM.vhdx"
+  source = "C:/Hyper-V/Templates/WS2025_Golden.vhdx" 
+  size   = 64424509440 
 }
 
 resource "hyperv_machine_instance" "vm_noob" {
-  name                 = "MA-PREMIERE-VM"
+  name                 = "TEST-VM"
   generation           = 2
   processor_count      = 2
   static_memory        = true
   memory_startup_bytes = 2147483648
 
   network_adaptors {
-    name = "Default Switch"
+    name = "Default Switch" 
   }
 
   hard_disk_drives {
