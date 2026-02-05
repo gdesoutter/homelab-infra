@@ -1,10 +1,8 @@
-# 1. Création d'un disque différencié (Rapide et léger)
 resource "hyperv_vhd" "vhd_noob" {
   path            = "C:/Hyper-V/Virtual Hard Disks/Test-VM.vhdx"
-  parent_vhd_path = "C:/Hyper-V/Templates/WS2025_Golden.vhdx" # Ton template est le "parent"
+  parent_path = "C:/Hyper-V/Templates/WS2025_Golden.vhdx" 
 }
 
-# 2. Création de la machine
 resource "hyperv_machine_instance" "vm_noob" {
   name                 = "MA-PREMIERE-VM"
   generation           = 2
