@@ -1,17 +1,19 @@
+# 1. Création d'un disque différencié (Rapide et léger)
 resource "hyperv_vhd" "vhd_noob" {
-  path   = "C:\\ProgramData\\Microsoft\\Windows\\Virtual Hard Disks\\TEST-VM.vhdx"
-  source = "C:\\ProgramData\\Microsoft\\Windows\\Virtual Hard Disks\\WS2025_Golden.vhdx"
+  path            = "C:/Hyper-V/Virtual Hard Disks/Test-VM.vhdx"
+  parent_vhd_path = "C:/Hyper-V/Templates/WS2025_Golden.vhdx" # Ton template est le "parent"
 }
 
+# 2. Création de la machine
 resource "hyperv_machine_instance" "vm_noob" {
-  name                 = "Test-VM"
+  name                 = "MA-PREMIERE-VM"
   generation           = 2
   processor_count      = 2
-  static_memory        = true 
-  memory_startup_bytes = 2147483648 # 2 Go
+  static_memory        = true
+  memory_startup_bytes = 2147483648
 
   network_adaptors {
-    name = "Realtek Gaming 2.5GbE Family Controller - Virtual Switch"
+    name = "Default Switch"
   }
 
   hard_disk_drives {
