@@ -1,6 +1,7 @@
 resource "hyperv_vhd" "vhd_noob" {
   path            = "C:/Hyper-V/Virtual Hard Disks/Test-VM.vhdx"
-  parent_path = "C:/Hyper-V/Templates/WS2025_Golden.vhdx" 
+  parent_path = "C:/Hyper-V/Templates/WS2025_Golden.vhdx"
+  size        = 64424509440
 }
 
 resource "hyperv_machine_instance" "vm_noob" {
