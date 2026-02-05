@@ -4,13 +4,14 @@ resource "hyperv_vhd" "vhd_noob" {
 }
 
 resource "hyperv_machine_instance" "vm_noob" {
-  name       = "Test-VM"
-  generation = 2
-  processor_count = 2
-  memory_startup_bytes = 2147483648
+  name                 = "Test-VM"
+  generation           = 2
+  processor_count      = 2
+  static_memory        = true 
+  memory_startup_bytes = 2147483648 # 2 Go
 
   network_adaptors {
-    name = "Default Switch"
+    name = "Realtek Gaming 2.5GbE Family Controller - Virtual Switch"
   }
 
   hard_disk_drives {
