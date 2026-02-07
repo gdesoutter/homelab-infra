@@ -33,7 +33,7 @@ resource "hyperv_machine_instance" "dc_01" {
 
   network_adaptors {
     name         = "eth0"
-    switch_name  = hyperv_network_switch.lab_switch.name
+    switch_name  = data.hyperv_network_switch.lab_switch.name
   }
 
   hard_disk_drives {
