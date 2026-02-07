@@ -1,23 +1,48 @@
-resource "hyperv_vhd" "vhd_noob" {
-  path   = "C:/Hyper-V/Virtual Hard Disks/MA-PREMIERE-VM.vhdx"
-  source = "C:/Hyper-V/Templates/WS2025_Golden.vhdx" 
-  size   = 64424509440 
+terraform {
+  required_providers {
+    hyperv = {
+      source  = "taliesins/hyperv"
+      version = "1.2.1"
+    }
+  }
 }
 
-resource "hyperv_machine_instance" "vm_noob" {
-  name                 = "TEST-VM"
-  generation           = 2
-  processor_count      = 2
-  static_memory        = true
-  memory_startup_bytes = 2147483648
+provider "hyperv" {
+  user     = var.hyperv_user
+  password = var.hyperv_pass
+  host     = var.hyperv_host
+  port     = 5985
+  https    = false
+}
 
+resource "hyperv_vswitch" "lab_switch" {
+  name        = "Lab-Internal"
+  switch_type = "Internal"
+}
+
+resource "hyperv_vhd" "dc01_vhd" {
+  path = "C:\\Hyper-V\\VHDs\\DC-01.vhdx"
+  size = 64424509440 # 60 GB
+}
+
+resource "hyperv_machine_instance" "dc_01" {
+  name                               = "DC-01"
+  generation                         = 2
+  processor_count                    = 2
+  static_memory                      = true
+  memory_startup_bytes               = 4294967296 # 4GB
+  
   network_adaptors {
-    name = "Default Switch" 
+    name         = "eth0"
+    vswitch_name = hyperv_vswitch.lab_switch.name
   }
 
   hard_disk_drives {
-    path                = hyperv_vhd.vhd_noob.path
-    controller_number   = 0
-    controller_location = 0
+    path = hyperv_vhd.dc01_vhd.path
+  }
+
+  # Activation du Secure Boot pour Server 2025
+  vm_firmware {
+    enable_secure_boot = "On"
   }
 }
