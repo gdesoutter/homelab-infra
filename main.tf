@@ -33,16 +33,32 @@ resource "hyperv_machine_instance" "dc_01" {
 
   network_adaptors {
     name         = "eth0"
-    switch_name  = data.hyperv_network_switch.lab_switch.name
+    switch_name  = data.hyperv_network_switch.lab_switch.name 
   }
 
   hard_disk_drives {
     path                = hyperv_vhd.dc01_vhd.path
     controller_number   = 0
-    controller_location = 0
+    controller_location = 0 # Le disque est sur le port 0
+  }
+
+  dvd_drives {
+    path                = "C:\\Iso\\Server2025.iso"
+    controller_number   = 0
+    controller_location = 1 # Le DVD est sur le port 1
   }
 
   vm_firmware {
     enable_secure_boot = "On"
+    boot_order {
+      boot_type           = "DvdDrive"
+      controller_number   = 0
+      controller_location = 1
+    }
+    boot_order {
+      boot_type           = "HardDiskDrive"
+      controller_number   = 0
+      controller_location = 0
+    }
   }
 }
