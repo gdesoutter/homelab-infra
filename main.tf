@@ -15,9 +15,10 @@ provider "hyperv" {
   https    = false
 }
 
-resource "hyperv_vswitch" "lab_switch" {
-  name        = "Lab-Internal"
-  switch_type = "Internal"
+resource "hyperv_network_switch" "lab_switch" {
+  name                              = "Lab-Internal"
+  switch_type                       = "Internal"
+  notes                             = "Switch interne pour le lab hybride"
 }
 
 resource "hyperv_vhd" "dc01_vhd" {
@@ -31,17 +32,18 @@ resource "hyperv_machine_instance" "dc_01" {
   processor_count                    = 2
   static_memory                      = true
   memory_startup_bytes               = 4294967296 # 4GB
-  
+
   network_adaptors {
     name         = "eth0"
-    vswitch_name = hyperv_vswitch.lab_switch.name
+    switch_name  = hyperv_network_switch.lab_switch.name
   }
 
   hard_disk_drives {
-    path = hyperv_vhd.dc01_vhd.path
+    path                = hyperv_vhd.dc01_vhd.path
+    controller_number   = 0
+    controller_location = 0
   }
 
-  # Activation du Secure Boot pour Server 2025
   vm_firmware {
     enable_secure_boot = "On"
   }
