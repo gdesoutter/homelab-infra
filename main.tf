@@ -15,10 +15,8 @@ provider "hyperv" {
   https    = false
 }
 
-resource "hyperv_network_switch" "lab_switch" {
-  name                              = "Lab-Internal"
-  switch_type                       = "Internal"
-  notes                             = "Switch interne pour le lab hybride"
+data "hyperv_network_switch" "lab_switch" {
+  name = "Lab-Internal"
 }
 
 resource "hyperv_vhd" "dc01_vhd" {
